@@ -1,18 +1,23 @@
-const path=require('path')
-const express=require('express')
-const bodyparser=require('body-parser')
+const path = require('path');
 
-const app=express();
-const adminRoutes=require('./routes/admin')
-const shopRoutes=require('./routes/shop')
-const contactRoutes=require('./routes/contactus')
-const errorController=require('./controllers/error')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-app.use(bodyparser.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname,'public')));
+const app = express();
+const errorcontroller=require('./controllers/error')
 
-app.use('/admin',adminRoutes);
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
-app.use(contactRoutes);
-app.use(errorController.error)
-app.listen(5000);
+
+app.use(errorcontroller.error);
+
+app.listen(4000);
