@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" href="http://localhost:3000/css/main.css">
+    <title>Making An Expense Tracker App</title>
+</head>
+<body>
+    <div class="container bg-dark">
+        <div class="card m-3 p-3 bg-dark text-white" style="font-weight: bold;">
+            <h1 class="m-auto">All Expenses</h1>
+
+            <form id="form">
+                <label for="expense" class="form-label">Expense Amount</label>
+            <input type="number" class="addedtext form-control" id="expense">
+            <label for="descrip" class=" form-label">Description</label>
+            <select class='addedtext form-control mb-2' id="description">
+                <option>Watch Movie</option>
+                <option>My Fuel is low</option>
+                <option>I need to pay Electricity bill</option>
+                <option>I am Hungry Food</option>
+                <option>others</option>
+            </select>
+            <label for="category" class="form-label">Category</label>
+            <select class='addedtext form-control mb-2' id="category">
+                <option>Movie</option>
+                <option>Fuel</option>
+                <option>Electricity</option>
+                <option>Food</option>
+                <option>Others</option>
+            </select>
+            <input type="submit" class="form-control bg-success text-white" value="Add Expenses">
+
+
+        </form>
+        <ul class="list-group mt-2" id="itemslist">
+
+        </ul>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script>
+
+    const form=document.getElementById('form')
+    const des=document.getElementById('description')
+    // des.addEventListener('click',otherDescription);
+    form.addEventListener('submit',storedata)
+    function storedata(e){
+        e.preventDefault();
+        const expenseAmount=e.target.expense.value
+        const description=e.target.description.value;
+        const category=e.target.category.value
+        const obj={
+            expenseAmount,
+            description,
+            category
+        }
+const addexpense=async ()=>{
+    try{
+        const response=await axios.post('http://localhost:3000/admin/add-expense',obj)
+        displaydetails(response.data.newExpenseDetails)
+    }catch(err){
+        console.log(err)
+        document.body.innerHTML+='<h4>Something went wrong</h4>'
+    }
+} 
+addexpense()    
+} 
+    function displaydetails(person){
+    document.getElementById('expense').value=''
+    document.getElementById('description').value=''
+    document.getElementById('category').value=''
+const parEle=document.getElementById('itemslist')
+const childEle=document.createElement('li')
+childEle.innerHTML=`Name : ${person.expenseAmount}<br> Email : ${person.description}<br>phone : ${person.category}<button onclick="editExpense(${person.id})" class="edit btn f-e" id="${person.id}">Edit</button>
+<button onclick="deleteExpense(${person.id})" class="delete btn f-e" id="${person.id}">Delete</button>`
+childEle.id=`${person.id}`
+parEle.appendChild(childEle)
+}  
+window.addEventListener('DOMContentLoaded',async()=>{
+    try{
+        const response=await axios.get('http://localhost:3000/admin/get-expenses')
+        for(let i=0;i<response.data.allExpenses.length;i++){
+            displaydetails(response.data.allExpenses[i]);
+    }
+}catch(err){
+   console.log(err)
+    } 
+})
+async function deleteExpense(id){
+    try{
+        const response=await axios.delete(`http://localhost:3000/admin/delete-expense/${id}`)
+        console.log(response)
+        const child=document.getElementById(id)
+        child.remove();
+    }catch(err){
+            document.body.innerHTML+='<h4>Something went wrong</h4>'
+            console.log(err)
+    }
+}  
+async function editExpense(id){
+    try{
+        const response=await axios.put(`http://localhost:3000/admin/edit-expense/${id}`)
+        console.log(response)
+        document.getElementById('expense').value=response.data.editExpense.expenseAmount;
+    document.getElementById('description').value=response.data.editExpense.description;
+    document.getElementById('category').value=response.data.editExpense.category;
+        const child=document.getElementById(id)
+        child.remove();
+    }catch(err){
+            document.body.innerHTML+='<h4>Something went wrong</h4>'
+            console.log(err)
+    }
+}  
+</script>
+</body>
+</html>

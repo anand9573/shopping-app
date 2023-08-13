@@ -76,6 +76,11 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
 )
 function displaydetails(person){
+    document.getElementById('name').value=''
+    document.getElementById('email').value=''
+    document.getElementById('phone').value=''
+    document.getElementById('date').value=''
+    document.getElementById('time').value=''
 const parEle=document.getElementById('Listofitems')
 const childEle=document.createElement('li')
 childEle.innerHTML=`Name : ${person.name}<br> Email : ${person.email}<br>phone : ${person.phone}<br>Appointment date : ${person.date}<br>Appointment time : ${person.time}<button onclick="" class="edit btn f-e" id="${person.id}">Edit</button>

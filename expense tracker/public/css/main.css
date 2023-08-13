@@ -1,0 +1,25 @@
+ul{
+    border: 2px solid whitesmoke ;
+    box-sizing: border-box;
+    width: 100vw;
+}
+li{
+    margin: 2px;
+    display:flex;
+    margin: 1.2rem;
+    display: flex;
+    padding: 1rem;
+    border: 2px solid wheat;
+    list-style: none;
+    box-sizing: border-box;
+}
+.btn{
+    background-color:greenyellow;
+    color: blue;
+    font-weight: bolder;
+    max-height: 2.5rem;
+    justify-content: flex-end;
+    margin-right: 3px;
+    float: right;
+
+}
