@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+   <title>Booking Appointment</title>
+</head>
+<body>
+   <div class="container">
+    <h1 class="d-flex justify-content-center bg-dark p-3 text-white">Booking Appointment App</h1>
+    <div class="card card-body text-white p-3" style="background-color:darkgreen;font-weight: bold;">
+        <h2 class="text-green p-1 m-auto">Form</h2>
+        <form id="form">
+            <label for="Name" class="form-label mr-2">Name:</label>
+            <input type="text" id="name" name="name" class="form-control mb-2"  required>
+            <label for="phone" class="form-label">Phone:</label>
+            <input type="tel" id="phone" name="phone" class="form-control form-control mb-2" maxlength="10" required>
+            <div class="form-floating">
+            </div>
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control mb-2" required>
+
+                <label for="date" class="form-label">Booking Date:</label>
+                <input type="date" id="date" name="date" class="form-control mb-2"  min="2023-07-01" max="2025-07-31">
+                <label for="datetime" class="form-label text-white">Appointment Time:</label>
+                <input type="time" id="time" name="time" class="form-control" min="09:00" max="17:00">
+                <input style="font-weight: bold;font-size: x-large;" type="submit" class="btn btn-dark bg-primary text-white mt-3 form-control" id="submit" value="submit">
+        </form>
+        </div>  
+          <div class="book text-white mt-3 p-3" id="booking" style="background-color: black;">
+            <ul id="Listofitems">
+
+            </ul>
+          </div>
+          <footer class="bg-dark text-white mt-2 d-flex justify-content-center">
+            <p>&copy; 2023 Booking Appointment Website</p>
+          </footer> 
+          </div>   
+<script>
+    function storage(e){
+        e.preventDefault();
+        const name=e.target.name.value
+        const email=e.target.email.value
+        const phone=e.target.phone.value
+        const date=e.target.date.value
+        const time=e.target.time.value
+        console.log(name)
+        const person={
+            name,
+            email,
+            phone,
+            date,
+            time
+        }
+        localStorage.setItem('person',JSON.stringify(person))
+        displaydetails(person)
+    }
+    function displaydetails(person){
+        const parEle=document.getElementById('Listofitems')
+        const childEle=document.createElement('li')
+        childEle.innerHTML=`Name : ${person.name}<br> Email : ${person.email}<br>Email : ${person.phone}<br>Booking Date : ${person.date}<br>Time : ${person.time}<br>`
+        parEle.appendChild(childEle)
+        const deletebtn=document.createElement('input')
+        deletebtn.setAttribute('class','bg-danger border btn border-danger delete')
+        deletebtn.type='button'
+        deletebtn.value='Delete'
+        deletebtn.onclick=()=>{
+            localStorage.removeItem(person.email)
+            parEle.removeChild(childEle)
+        }
+        const editbtn=document.createElement('input')
+        editbtn.type='button'
+        editbtn.value='Edit'
+        editbtn.setAttribute('class','bg-success  border btn border-success')
+        editbtn.onclick=()=>{
+            localStorage.removeItem("person.email")
+            parEle.removeChild(childEle)
+            document.getElementById('name').value=person.name
+        document.getElementById('email').value=person.email
+        document.getElementById('phone').value=person.phone
+        document.getElementById('date').value=person.date
+        document.getElementById('time').value=person.time
+        }
+        childEle.appendChild(deletebtn)
+        childEle.appendChild(editbtn)
+        parEle.appendChild(childEle)
+    }
+
+    const form = document.getElementById("form");
+    form.addEventListener('submit', storage);
+</script>
+</body>
+</html>
