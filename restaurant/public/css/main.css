@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Brygada+1918:ital@1&family=Golos+Text&family=Recursive:wght@500&family=Roboto&display=swap');
+
+*{
+  font-family: 'Recursive', sans-serif;;
+}
+ul{
+  display: block;
+  box-sizing: border-box;
+  width: 60vw;
+  padding: auto;
+  font-weight: bolder;
+}
+li{
+  list-style: none;
+  font-weight: bold;
+  border: 2px solid rgb(17, 232, 239);
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.btn{
+  background-color:green;
+  color: blue;
+  font-weight: bolder;
+  max-height: 2.5rem;
+  margin-right: auto;
+}
